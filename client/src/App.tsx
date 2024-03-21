@@ -35,7 +35,7 @@ export interface AIChatMessage {
 	isAI: boolean;
 }
 
-const rootUrl = "http://localhost:8080";
+const rootUrl = "https://sixly.de";
 
 function App() {
 	// one number for each of the four stories
