@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
+import {faCoins, faFireFlameCurved, faPercent} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Story {
     company: string,
@@ -146,8 +148,10 @@ function App() {
                         stories<br/>
                     </div>
                 </div>
-                <footer>
-                    hello
+                <footer className={"sixly-footer"}>
+                    <FontAwesomeIcon className={"sixly-footer-icon"}icon={faPercent} />
+                    <FontAwesomeIcon className={"sixly-footer-icon"} icon={faFireFlameCurved} />
+                    <FontAwesomeIcon className={"sixly-footer-icon"} icon={faCoins} />
                 </footer>
                 <div className={"sixly-overlay"}></div>
             </>
