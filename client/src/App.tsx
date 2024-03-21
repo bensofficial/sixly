@@ -155,14 +155,23 @@ function App() {
 							contentSiteOne.map((content) => {
 								return <ContentTile content={content} />;
 							})}
+						{siteShown === 1 && contentSiteOne.length === 0 && (
+							<>No content could be loaded.</>
+						)}
 						{siteShown === 2 &&
 							contentSiteTwo.map((content) => {
 								return <ContentTile content={content} />;
 							})}
+						{siteShown === 2 && contentSiteTwo.length === 0 && (
+							<>No content could be loaded.</>
+						)}
 						{siteShown === 3 &&
 							contentSiteThree.map((content) => {
 								return <ContentTile content={content} />;
 							})}
+						{siteShown === 3 && contentSiteThree.length === 0 && (
+							<>No content could be loaded.</>
+						)}
 					</div>
 				</div>
 				<footer className={"sixly-footer"}>

@@ -15,10 +15,6 @@ type ContentTileProps = {
 };
 
 function ContentTile({ content }: ContentTileProps) {
-	const data = [{ name: "a", value: 12 }];
-
-	console.log(data);
-
 	return (
 		<div className={"sixly-contenttile"}>
 			<div className={"sixly-contenttile-header"}>
