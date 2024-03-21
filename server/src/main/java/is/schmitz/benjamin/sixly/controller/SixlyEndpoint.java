@@ -36,8 +36,8 @@ public class SixlyEndpoint {
         if (keywords != null && keywords.contains("risk")) {
             filterOptions.add(FilterOptions.RISK);
         }
-        if (keywords != null && keywords.contains("investment")) {
-            filterOptions.add(FilterOptions.INVESTMENT);
+        if (keywords != null && keywords.contains("return")) {
+            filterOptions.add(FilterOptions.RETURN);
         }
 
         var contents = new LinkedList<ContentDTO>();

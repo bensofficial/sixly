@@ -173,7 +173,7 @@ function App() {
 						options={[
 							{ name: "Sustainability", id: 1 },
 							{ name: "Risk", id: 2 },
-							{ name: "Investment", id: 3 },
+							{ name: "Return", id: 3 },
 						]}
 						onSelect={onSelect}
 						onRemove={onRemove}
