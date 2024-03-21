@@ -4,7 +4,7 @@ import {
 	faCommentsDollar,
 	faFireFlameCurved,
 	faPercent,
-	faQuestion
+	faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { faUser, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,7 +48,9 @@ function App() {
 
 	let [stories, setStories] = useState<Story[]>([]);
 	let [contentList, setContentList] = useState<Content[]>([]);
-	let [messageList, setMessageList] = useState<AIChatMessage[]>([{ message: "Hi, how can I help you?", isAI: true }])
+	let [messageList, setMessageList] = useState<AIChatMessage[]>([
+		{ message: "Hi, how can I help you?", isAI: true },
+	]);
 
 	useEffect(() => {
 		fetch(`${rootUrl}/api/sixly/news`)
@@ -156,65 +158,72 @@ function App() {
 							<FontAwesomeIcon icon={faUser} />
 						</span>
 					</div>
-					{siteShown < 3 && <div className={"sixly-stories"}>
-						{stories &&
-							stories.map((story, index) => {
-								return (
-									<div
-										className={"sixly-story"}
-										onClick={() => showStory(index)}
-									>
-										<img
-											className={"sixly-story-image"}
-											src={story.logoUrl}
-											alt={`Logo ${story.fond}`}
-										/>
-										<br />
-										{story.fond}
-									</div>
-								);
-							})}
-					</div>
-					}
-
-					{siteShown < 3 && <>
-						<div className={"sixly-select-information"}>
-							Select
-							<a
-								className={"sixly-tooltip"}
-								data-tooltip-id={"select-tooltip"}
-								data-tooltip-content={"Select categories that are important to you when investing.\n" +
-									"Sustainability: \n" +
-									"Risk: \n" +
-									"Return: "}
-							>
-								<FontAwesomeIcon icon={faQuestion} />
-							</a>
+					{siteShown < 3 && (
+						<div className={"sixly-stories"}>
+							{stories &&
+								stories.map((story, index) => {
+									return (
+										<div
+											className={"sixly-story"}
+											onClick={() => showStory(index)}
+										>
+											<img
+												className={"sixly-story-image"}
+												src={story.logoUrl}
+												alt={`Logo ${story.fond}`}
+											/>
+											<br />
+											{story.fond}
+										</div>
+									);
+								})}
 						</div>
-						<Tooltip id="select-tooltip" /><Multiselect
-						className={"sixly-select"}
-						options={[
-							{ name: "Sustainability", id: 1 },
-							{ name: "Risk", id: 2 },
-							{ name: "Return", id: 3 }
-						]}
-						onSelect={onSelect}
-						onRemove={onRemove}
-						placeholder={""}
-						displayValue="name"
-						style={{
-							chips: {
-								background: "darkviolet"
-							},
-							multiselectContainer: {
-								color: "darkviolet"
-							},
-							searchBox: {
-								border: "1px solid grey",
-								borderBottom: "solid"
-							}
-						}} /></>
-				}
+					)}
+
+					{siteShown < 3 && (
+						<>
+							<div className={"sixly-select-information"}>
+								Select
+								<a
+									className={"sixly-tooltip"}
+									data-tooltip-id={"select-tooltip"}
+									data-tooltip-content={
+										"Select categories that are important to you when investing.\n" +
+										"Sustainability: \n" +
+										"Risk: \n" +
+										"Return: "
+									}
+								>
+									<FontAwesomeIcon icon={faQuestion} />
+								</a>
+							</div>
+							<Tooltip id="select-tooltip" />
+							<Multiselect
+								className={"sixly-select"}
+								options={[
+									{ name: "Sustainability", id: 1 },
+									{ name: "Risk", id: 2 },
+									{ name: "Return", id: 3 },
+								]}
+								onSelect={onSelect}
+								onRemove={onRemove}
+								placeholder={""}
+								displayValue="name"
+								style={{
+									chips: {
+										background: "darkviolet",
+									},
+									multiselectContainer: {
+										color: "darkviolet",
+									},
+									searchBox: {
+										border: "1px solid grey",
+										borderBottom: "solid",
+									},
+								}}
+							/>
+						</>
+					)}
 
 					<div className={"sixly-content"}>
 						{contentList &&
@@ -222,40 +231,113 @@ function App() {
 							contentList.map((content) => {
 								return <ContentTile content={content} />;
 							})}
-						{siteShown === 3 && <>
-							{messageList.map((message) => {
-								if (message.isAI) {
-									return (<div className={"sixly-ai-message"}>
-										<span className={"sixly-ai-message-human"}>AI:</span><br />
-										{message.message}
-									</div>)
-								} else {
-									return (<div className={"sixly-ai-message"}>
-										<span className={"sixly-ai-message-human"}>You:</span><br />
-										<span className={"sixly-ai-message-message"}>{message.message}</span><br />
-									</div>)
-								}
-							})}
-							<div className={"sixly-ai-message-input-wrapper"}>
-								<input className={"sixly-ai-message-input"} type={"text"} id={"sixly-ai-message-input"} />
-								<FontAwesomeIcon icon={faPaperPlane} className={"sixly-ai-message-send"} onClick={() => {
-									const message = (document.getElementById("sixly-ai-message-input") as HTMLInputElement).value
-									setMessageList([...messageList, {message: message, isAI: false}])
+						{siteShown === 3 && (
+							<>
+								{messageList.map((message) => {
+									if (message.isAI) {
+										return (
+											<div className={"sixly-ai-message"}>
+												<span
+													className={
+														"sixly-ai-message-human"
+													}
+												>
+													AI:
+												</span>
+												<br />
+												{message.message}
+											</div>
+										);
+									} else {
+										return (
+											<div className={"sixly-ai-message"}>
+												<span
+													className={
+														"sixly-ai-message-human"
+													}
+												>
+													You:
+												</span>
+												<br />
+												<span
+													className={
+														"sixly-ai-message-message"
+													}
+												>
+													{message.message}
+												</span>
+												<br />
+											</div>
+										);
+									}
+								})}
+								<div
+									className={"sixly-ai-message-input-wrapper"}
+								>
+									<input
+										className={"sixly-ai-message-input"}
+										type={"text"}
+										id={"sixly-ai-message-input"}
+									/>
+									<FontAwesomeIcon
+										icon={faPaperPlane}
+										className={"sixly-ai-message-send"}
+										onClick={() => {
+											const message = (
+												document.getElementById(
+													"sixly-ai-message-input",
+												) as HTMLInputElement
+											).value;
+											setMessageList([
+												...messageList,
+												{
+													message: message,
+													isAI: false,
+												},
+											]);
 
-									const messageURI = encodeURI(message)
-									fetch(
-										`${rootUrl}/api/sixly/ai/generate?message=${messageURI}`,
-									)
-										.then((response) => response.json())
-										.then((data) => {
-											setMessageList([...messageList, {message: message, isAI: false}, {message: data["generation"], isAI: true}])
-										});
+											const messageURI =
+												encodeURI(message);
+											fetch(
+												`${rootUrl}/api/sixly/ai/generate?message=${messageURI}`,
+											)
+												.then((response) =>
+													response.json(),
+												)
+												.then((data) => {
+													setMessageList([
+														...messageList,
+														{
+															message: message,
+															isAI: false,
+														},
+														{
+															message:
+																data[
+																	"generation"
+																],
+															isAI: true,
+														},
+													]);
+													window.scrollTo({
+														left: 0,
+														top: document.body
+															.scrollHeight,
+														behavior: "smooth",
+													});
+												});
 
-									(document.getElementById("sixly-ai-message-input") as HTMLInputElement).value = ""
-
-								}} />
-							</div>
-						</>}
+											(
+												document.getElementById(
+													"sixly-ai-message-input",
+												) as HTMLInputElement
+											).value = "";
+										}}
+									/>
+								</div>
+								<div className={"sixly-ai-overlay"}></div>
+							</>
+						)}
 					</div>
 				</div>
 				<footer className={"sixly-footer"}>

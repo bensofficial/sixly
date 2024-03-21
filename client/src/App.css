@@ -1,7 +1,7 @@
 .sixly {
 	width: 426px;
 	margin: 15px auto;
-	padding: 15px 15px 70px;
+	padding: 15px 15px 150px;
 	border: solid white;
 	border-radius: 25px;
 	min-height: 100%;
@@ -88,6 +88,10 @@
 	padding-top: 20px;
 }
 
+.sixly-ai-content {
+	padding-top: 20px;
+}
+
 .sixly-footer {
 	position: fixed;
 	bottom: 0;
@@ -167,6 +171,7 @@
 	padding: 15px;
 	left: 50%;
 	transform: translate(-50%, 0);
+	z-index: 3;
 }
 
 .sixly-ai-message-input {
@@ -179,4 +184,13 @@
 .sixly-ai-message-send {
 	margin-top: 5px;
 	height: 25px;
+}
+
+.sixly-ai-overlay {
+	z-index: 2;
+	background: white;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 150px;
 }
