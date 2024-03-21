@@ -10,7 +10,12 @@ interface Story {
 }
 
 function App() {
-    const [getStoryShown, setStoryShown] = useState(-1)
+    // one number for each of the four stories
+    const [storyShown, setStoryShown] = useState(-1)
+    // 1: Greatest change in last x hours
+    // 2: Trending
+    // 3: Greatest capital
+    const [siteShown, setSiteShown] = useState(1)
     let timeout: NodeJS.Timeout | undefined
 
     function showStory(storyPosition: number) {
@@ -42,11 +47,11 @@ function App() {
     },
     ]
 
-    if (getStoryShown >= 0) {
+    if (storyShown >= 0) {
         return (
             <div className={"sixly-show-story-background"}>
                 <div className="sixly-show-story" onClick={() => hideStoryShown()}>
-                    {stories[getStoryShown].news}
+                    {stories[storyShown].news}
                 </div>
             </div>
         );
@@ -68,7 +73,11 @@ function App() {
                         })}
                     </div>
 
-                    <div>
+                    <div className={"sixly-content"}>
+                        {siteShown === 1 && <div>page one</div>}
+                        {siteShown === 2 && <div>page two</div>}
+                        {siteShown === 3 && <div>page tree</div>}
+
                         stories<br/>
                         stories<br/>
                         stories<br/>
@@ -149,9 +158,9 @@ function App() {
                     </div>
                 </div>
                 <footer className={"sixly-footer"}>
-                    <FontAwesomeIcon className={"sixly-footer-icon"}icon={faPercent} />
-                    <FontAwesomeIcon className={"sixly-footer-icon"} icon={faFireFlameCurved} />
-                    <FontAwesomeIcon className={"sixly-footer-icon"} icon={faCoins} />
+                    <FontAwesomeIcon className={"sixly-footer-icon"} icon={faPercent} onClick={() => setSiteShown(1)} />
+                    <FontAwesomeIcon className={"sixly-footer-icon"} icon={faFireFlameCurved} onClick={() => setSiteShown(2)} />
+                    <FontAwesomeIcon className={"sixly-footer-icon"} icon={faCoins} onClick={() => setSiteShown(3)} />
                 </footer>
                 <div className={"sixly-overlay"}></div>
             </>
