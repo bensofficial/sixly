@@ -36,11 +36,23 @@
 	height: 100%;
 }
 
-h1 {
+.sixly-logo {
+	width: 35px;
+	vertical-align: middle;
+	margin-right: 8px;
+}
+
+.sixly-header {
 	color: darkviolet;
+	font-size: xx-large;
+}
+
+.sixly-user {
+	float: right;
 }
 
 .sixly-stories {
+	padding-top: 15px;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -52,11 +64,19 @@ h1 {
 }
 
 .sixly-story-image {
-	height: 50px;
-	width: 50px;
+	height: 40px;
+	width: 40px;
 	border-radius: 50%;
 	border: solid darkviolet;
 	object-fit: cover;
+}
+
+.sixly-select {
+	margin-top: 15px;
+}
+
+.highlightOption {
+	background-color: darkviolet !important;
 }
 
 .sixly-content {
@@ -81,6 +101,13 @@ h1 {
 
 	display: flex;
 	justify-content: space-between;
+
+	align-content: center;
+	text-align: center;
+}
+
+.sixly-footer-item {
+	flex-basis: 100%;
 }
 
 .sixly-footer-icon {

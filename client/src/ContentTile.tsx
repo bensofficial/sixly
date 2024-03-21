@@ -21,9 +21,12 @@ function ContentTile({ content }: ContentTileProps) {
 				<img
 					className={"sixly-contenttile-image"}
 					src={content.logoUrl}
-					alt={`Logo ${content.company}`}
+					alt={`Logo ${content.fond}`}
 				/>
-				{content.company}
+				{content.fond}
+				<span className={"sixly-contenttile-score"}>
+					{content.score}
+				</span>
 			</div>
 			<div className={"sixly-contenttile-sector"}>{content.sector}</div>
 			<LineChart

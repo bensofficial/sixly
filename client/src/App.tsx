@@ -1,28 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
 	faCoins,
 	faFireFlameCurved,
 	faPercent,
 } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ContentTile from "./ContentTile";
+import logo from "./logo.png";
+import { Multiselect } from "multiselect-react-dropdown";
 
 interface Story {
-	company: string;
+	fond: string;
 	news: string;
 	logoUrl: string;
 }
 
 export interface Content {
-	company: string;
+	fond: string;
 	logoUrl: string;
 	sector: string;
+	score: string;
 	prices: Array<{
 		date: Date;
 		price: number;
 	}>;
 }
+
+const rootUrl = "http://localhost:8080";
 
 function App() {
 	// one number for each of the four stories
@@ -33,77 +39,74 @@ function App() {
 	const [siteShown, setSiteShown] = useState(1);
 	let timeout: NodeJS.Timeout | undefined;
 
-	const stories: Array<Story> = [
-		{
-			company: "Google",
-			news: "Google is a search engine",
-			logoUrl:
-				"https://static.giga.de/wp-content/uploads/2018/12/Google-logo-G-icon-symbol-2021.jpg",
-		},
-		{
-			company: "Twitter",
-			news: "Twitter is also called X",
-			logoUrl:
-				"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/512px-Logo_of_Twitter.svg.png",
-		},
-		{
-			company: "Microsoft",
-			news: "Microsoft created Windows",
-			logoUrl:
-				"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
-		},
-		{
-			company: "Amazon",
-			news: "Amazon is a online marketplace.",
-			logoUrl:
-				"https://i.pinimg.com/736x/0a/06/60/0a06600cc3cedeb49280b54114c88ce6.jpg",
-		},
-	];
+	let [stories, setStories] = useState<Story[]>([]);
+	let [contentList, setContentList] = useState<Content[]>([]);
 
-	const contentSiteOne: Array<Content> = [
-		{
-			company: "Microsoft",
-			logoUrl:
-				"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
-			sector: "IT",
-			prices: [
-				{
-					date: new Date(2023, 0, 1, 1, 0, 0),
-					price: 20,
-				},
-				{
-					date: new Date(2023, 5, 1, 1, 0, 0),
-					price: 20,
-				},
-				{
-					date: new Date(2024, 0, 1, 1, 0, 0),
-					price: 30,
-				},
-			],
-		},
-		{
-			company: "Amazon",
-			logoUrl:
-				"https://i.pinimg.com/736x/0a/06/60/0a06600cc3cedeb49280b54114c88ce6.jpg",
-			sector: "Shopping",
-			prices: [
-				{
-					date: new Date(2023, 0, 1, 1, 0, 0),
-					price: 1,
-				},
-				{
-					date: new Date(2023, 5, 1, 1, 0, 0),
-					price: 20,
-				},
-				{
-					date: new Date(2024, 0, 1, 1, 0, 0),
-					price: 6,
-				},
-			],
-		},
-	];
-	const contentSiteTwo: Array<Content> = [];
-	const contentSiteThree: Array<Content> = [];
+	useEffect(() => {
+		fetch(`${rootUrl}/api/sixly/news`)
+			.then((response) => response.json())
+			.then((data) => {
+				setStories(data);
+			});
+	}, []);
+
+	useEffect(() => {
+		fetchContent(1);
+	}, []);
+
+	function fetchContent(currentlyShownSide: number) {
+		fetch(`${rootUrl}/api/sixly/content/${currentlyShownSide}`)
+			.then((response) => response.json())
+			.then((data) => {
+				data = data.map((entry: any) => {
+					return {
+						fond: entry.fond,
+						logoUrl: entry.logoUrl,
+						sector: entry.sector,
+						score: entry.score,
+						prices: entry.prices.map((priceEntry: any) => {
+							return {
+								date: new Date(priceEntry.date),
+								price: priceEntry.price,
+							};
+						}),
+					};
+				});
+				setContentList(data);
+			});
+	}
+
+	function fetchContentWithSelectedList(
+		currentlyShownSide: number,
+		selectedList: any,
+	) {
+		const keywords = selectedList
+			.map((selected: any) => selected.name)
+			.join(",")
+			.toLowerCase();
+
+		fetch(
+			`${rootUrl}/api/sixly/content/${currentlyShownSide}?keywords=${keywords}`,
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				data = data.map((entry: any) => {
+					return {
+						fond: entry.fond,
+						logoUrl: entry.logoUrl,
+						sector: entry.sector,
+						score: entry.score,
+						prices: entry.prices.map((priceEntry: any) => {
+							return {
+								date: new Date(priceEntry.date),
+								price: priceEntry.price,
+							};
+						}),
+					};
+				});
+				setContentList(data);
+			});
+	}
 
 	function showStory(storyPosition: number) {
 		setStoryShown(storyPosition);
@@ -113,6 +116,14 @@ function App() {
 	function hideStoryShown() {
 		clearTimeout(timeout);
 		setStoryShown(-1);
+	}
+
+	function onSelect(selectedList: any, selectedItem: any) {
+		fetchContentWithSelectedList(siteShown, selectedList);
+	}
+
+	function onRemove(selectedList: any, removedItem: any) {
+		fetchContentWithSelectedList(siteShown, selectedList);
 	}
 
 	if (storyShown >= 0) {
@@ -130,66 +141,102 @@ function App() {
 		return (
 			<>
 				<div className="sixly">
-					<h1>sixly</h1>
+					<div className={"sixly-header"}>
+						<img className={"sixly-logo"} src={logo}></img>
+						<span>sixly</span>
+						<span className={"sixly-user"}>
+							<FontAwesomeIcon icon={faUser} />
+						</span>
+					</div>
 					<div className={"sixly-stories"}>
-						{stories.map((story, index) => {
-							return (
-								<div
-									className={"sixly-story"}
-									onClick={() => showStory(index)}
-								>
-									<img
-										className={"sixly-story-image"}
-										src={story.logoUrl}
-										alt={`Logo ${story.company}`}
-									/>
-									<br />
-									{story.company}
-								</div>
-							);
-						})}
+						{stories &&
+							stories.map((story, index) => {
+								return (
+									<div
+										className={"sixly-story"}
+										onClick={() => showStory(index)}
+									>
+										<img
+											className={"sixly-story-image"}
+											src={story.logoUrl}
+											alt={`Logo ${story.fond}`}
+										/>
+										<br />
+										{story.fond}
+									</div>
+								);
+							})}
 					</div>
 
+					<Multiselect
+						className={"sixly-select"}
+						options={[
+							{ name: "Sustainability", id: 1 },
+							{ name: "Risk", id: 2 },
+							{ name: "Investment", id: 3 },
+						]}
+						onSelect={onSelect}
+						onRemove={onRemove}
+						placeholder={"Select"}
+						displayValue="name"
+						style={{
+							chips: {
+								background: "darkviolet",
+							},
+							multiselectContainer: {
+								color: "darkviolet",
+							},
+							searchBox: {
+								border: "none",
+								borderBottom: "medium",
+							},
+						}}
+					/>
+
 					<div className={"sixly-content"}>
-						{siteShown === 1 &&
-							contentSiteOne.map((content) => {
+						{contentList &&
+							contentList.map((content) => {
 								return <ContentTile content={content} />;
 							})}
-						{siteShown === 1 && contentSiteOne.length === 0 && (
-							<>No content could be loaded.</>
-						)}
-						{siteShown === 2 &&
-							contentSiteTwo.map((content) => {
-								return <ContentTile content={content} />;
-							})}
-						{siteShown === 2 && contentSiteTwo.length === 0 && (
-							<>No content could be loaded.</>
-						)}
-						{siteShown === 3 &&
-							contentSiteThree.map((content) => {
-								return <ContentTile content={content} />;
-							})}
-						{siteShown === 3 && contentSiteThree.length === 0 && (
-							<>No content could be loaded.</>
-						)}
 					</div>
 				</div>
 				<footer className={"sixly-footer"}>
-					<FontAwesomeIcon
-						className={"sixly-footer-icon"}
-						icon={faPercent}
-						onClick={() => setSiteShown(1)}
-					/>
-					<FontAwesomeIcon
-						className={"sixly-footer-icon"}
-						icon={faFireFlameCurved}
-						onClick={() => setSiteShown(2)}
-					/>
-					<FontAwesomeIcon
-						className={"sixly-footer-icon"}
-						icon={faCoins}
-						onClick={() => setSiteShown(3)}
-					/>
+					<div className={"sixly-footer-item"}>
+						<FontAwesomeIcon
+							className={"sixly-footer-icon"}
+							icon={faPercent}
+							onClick={() => {
+								setSiteShown(1);
+								fetchContent(1);
+							}}
+						/>
+						<br />
+						Biggest Change
+					</div>
+					<div className={"sixly-footer-item"}>
+						<FontAwesomeIcon
+							className={"sixly-footer-icon"}
+							icon={faFireFlameCurved}
+							onClick={() => {
+								setSiteShown(2);
+								fetchContent(2);
+							}}
+						/>
+						<br />
+						Trending
+					</div>
+					<div className={"sixly-footer-item"}>
+						<FontAwesomeIcon
+							className={"sixly-footer-icon"}
+							icon={faCoins}
+							onClick={() => {
+								setSiteShown(3);
+								fetchContent(3);
+							}}
+						/>
+						<br />
+						Top Stocks
+					</div>
 				</footer>
 				<div className={"sixly-overlay"}></div>
 			</>
