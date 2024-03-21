@@ -1,0 +1,83 @@
+.sixly {
+    width: 426px;
+    margin: 15px auto;
+    padding: 15px 15px 60px;
+    border: solid darkviolet;
+    border-radius: 25px;
+}
+
+.sixly-show-story {
+    width: 426px;
+    margin: 15px;
+    padding: 15px 15px 60px;
+    border: solid darkviolet;
+    border-radius: 25px;
+
+    position:fixed;
+
+    top:0;
+    left:50%;
+    transform: translate(-50%, 0);
+
+    height: calc(100% - 2*60px);
+    background:rgba(255,255,255,0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: x-large;
+}
+
+.sixly-show-story-background {
+    background: #4c4c4c;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+h1 {
+    color: darkviolet;
+}
+
+.sixly-stories {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.sixly-story {
+    align-content: center;
+    text-align: center;
+    word-break: normal;
+}
+
+.sixly-story-image {
+    height: 50px;
+    border-radius: 50%;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+
+    width: 426px;
+    margin: 15px 0;
+    padding: 15px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    border: solid darkviolet;
+    border-radius: 25px;
+
+    background: white;
+    z-index: 3;
+}
+
+.sixly-overlay {
+    z-index: 2;
+    background: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+}
