@@ -71,8 +71,12 @@
 	object-fit: cover;
 }
 
+.sixly-select-information {
+	margin-top: 10px;
+}
+
 .sixly-select {
-	margin-top: 15px;
+	margin-top: 5px;
 }
 
 .highlightOption {
@@ -121,4 +125,14 @@
 	bottom: 0;
 	width: 100%;
 	height: 50px;
+}
+
+.sixly-tooltip {
+	margin-left: 5px;
+	color: gray;
+}
+
+.react-tooltip {
+	max-width: 200px !important;
+	white-space: break-spaces !important;
 }

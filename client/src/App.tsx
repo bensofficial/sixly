@@ -4,12 +4,14 @@ import {
 	faCoins,
 	faFireFlameCurved,
 	faPercent,
+	faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ContentTile from "./ContentTile";
 import logo from "./logo.png";
 import { Multiselect } from "multiselect-react-dropdown";
+import { Tooltip } from "react-tooltip";
 
 interface Story {
 	fond: string;
@@ -168,6 +170,22 @@ function App() {
 							})}
 					</div>
 
+					<div className={"sixly-select-information"}>
+						Select
+						<a
+							className={"sixly-tooltip"}
+							data-tooltip-id={"select-tooltip"}
+							data-tooltip-content={
+								"Select categories that are important to you when investing.\n" +
+								"Sustainability: \n" +
+								"Risk: \n" +
+								"Return: "
+							}
+						>
+							<FontAwesomeIcon icon={faQuestion} />
+						</a>
+					</div>
+					<Tooltip id="select-tooltip" />
 					<Multiselect
 						className={"sixly-select"}
 						options={[
@@ -177,7 +195,7 @@ function App() {
 						]}
 						onSelect={onSelect}
 						onRemove={onRemove}
-						placeholder={"Select"}
+						placeholder={""}
 						displayValue="name"
 						style={{
 							chips: {
@@ -187,8 +205,8 @@ function App() {
 								color: "darkviolet",
 							},
 							searchBox: {
-								border: "none",
-								borderBottom: "medium",
+								border: "1px solid grey",
+								borderBottom: "solid",
 							},
 						}}
 					/>
