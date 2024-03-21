@@ -2,8 +2,9 @@
 	width: 426px;
 	margin: 15px auto;
 	padding: 15px 15px 70px;
-	border: solid darkviolet;
+	border: solid white;
 	border-radius: 25px;
+	min-height: 100%;
 }
 
 .sixly-show-story {
@@ -97,7 +98,7 @@
 	left: 50%;
 	transform: translate(-50%, 0);
 
-	border: solid darkviolet;
+	border: solid white;
 	border-radius: 25px;
 
 	background: white;
@@ -116,6 +117,7 @@
 
 .sixly-footer-icon {
 	height: 25px;
+	margin-bottom: 5px;
 }
 
 .sixly-overlay {
@@ -135,4 +137,46 @@
 .react-tooltip {
 	max-width: 200px !important;
 	white-space: break-spaces !important;
+}
+
+.sixly-ai-message-ai {
+	color: darkviolet;
+}
+
+.sixly-ai-message-human {
+	color: darkviolet;
+	text-align: right;
+}
+
+.sixly-ai-message {
+	border-bottom: 2px solid darkviolet;
+	white-space: break-spaces;
+	margin-top: 15px;
+}
+
+.sixly-ai-message-message {
+	width: 75%;
+}
+
+.sixly-ai-message-input-wrapper {
+	position: fixed;
+	bottom: 80px;
+
+	width: 426px;
+	margin: 15px 0;
+	padding: 15px;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.sixly-ai-message-input {
+	width: 92%;
+	border: none;
+	border-bottom: 2px solid darkviolet;
+	font-size: inherit;
+}
+
+.sixly-ai-message-send {
+	margin-top: 5px;
+	height: 25px;
 }

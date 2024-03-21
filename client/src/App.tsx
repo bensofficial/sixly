@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
-	faCoins,
+	faCommentsDollar,
 	faFireFlameCurved,
 	faPercent,
-	faQuestion,
+	faQuestion
 } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faUser, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ContentTile from "./ContentTile";
 import logo from "./logo.png";
@@ -30,6 +30,11 @@ export interface Content {
 	}>;
 }
 
+export interface AIChatMessage {
+	message: string;
+	isAI: boolean;
+}
+
 const rootUrl = "http://localhost:8080";
 
 function App() {
@@ -43,6 +48,7 @@ function App() {
 
 	let [stories, setStories] = useState<Story[]>([]);
 	let [contentList, setContentList] = useState<Content[]>([]);
+	let [messageList, setMessageList] = useState<AIChatMessage[]>([{ message: "Hi, how can I help you?", isAI: true }])
 
 	useEffect(() => {
 		fetch(`${rootUrl}/api/sixly/news`)
@@ -150,7 +156,7 @@ function App() {
 							<FontAwesomeIcon icon={faUser} />
 						</span>
 					</div>
-					<div className={"sixly-stories"}>
+					{siteShown < 3 && <div className={"sixly-stories"}>
 						{stories &&
 							stories.map((story, index) => {
 								return (
@@ -169,29 +175,28 @@ function App() {
 								);
 							})}
 					</div>
+					}
 
-					<div className={"sixly-select-information"}>
-						Select
-						<a
-							className={"sixly-tooltip"}
-							data-tooltip-id={"select-tooltip"}
-							data-tooltip-content={
-								"Select categories that are important to you when investing.\n" +
-								"Sustainability: \n" +
-								"Risk: \n" +
-								"Return: "
-							}
-						>
-							<FontAwesomeIcon icon={faQuestion} />
-						</a>
-					</div>
-					<Tooltip id="select-tooltip" />
-					<Multiselect
+					{siteShown < 3 && <>
+						<div className={"sixly-select-information"}>
+							Select
+							<a
+								className={"sixly-tooltip"}
+								data-tooltip-id={"select-tooltip"}
+								data-tooltip-content={"Select categories that are important to you when investing.\n" +
+									"Sustainability: \n" +
+									"Risk: \n" +
+									"Return: "}
+							>
+								<FontAwesomeIcon icon={faQuestion} />
+							</a>
+						</div>
+						<Tooltip id="select-tooltip" /><Multiselect
 						className={"sixly-select"}
 						options={[
 							{ name: "Sustainability", id: 1 },
 							{ name: "Risk", id: 2 },
-							{ name: "Return", id: 3 },
+							{ name: "Return", id: 3 }
 						]}
 						onSelect={onSelect}
 						onRemove={onRemove}
@@ -199,23 +204,58 @@ function App() {
 						displayValue="name"
 						style={{
 							chips: {
-								background: "darkviolet",
+								background: "darkviolet"
 							},
 							multiselectContainer: {
-								color: "darkviolet",
+								color: "darkviolet"
 							},
 							searchBox: {
 								border: "1px solid grey",
-								borderBottom: "solid",
-							},
-						}}
-					/>
+								borderBottom: "solid"
+							}
+						}} /></>
+				}
 
 					<div className={"sixly-content"}>
 						{contentList &&
+							siteShown < 3 &&
 							contentList.map((content) => {
 								return <ContentTile content={content} />;
 							})}
+						{siteShown === 3 && <>
+							{messageList.map((message) => {
+								if (message.isAI) {
+									return (<div className={"sixly-ai-message"}>
+										<span className={"sixly-ai-message-human"}>AI:</span><br />
+										{message.message}
+									</div>)
+								} else {
+									return (<div className={"sixly-ai-message"}>
+										<span className={"sixly-ai-message-human"}>You:</span><br />
+										<span className={"sixly-ai-message-message"}>{message.message}</span><br />
+									</div>)
+								}
+							})}
+							<div className={"sixly-ai-message-input-wrapper"}>
+								<input className={"sixly-ai-message-input"} type={"text"} id={"sixly-ai-message-input"} />
+								<FontAwesomeIcon icon={faPaperPlane} className={"sixly-ai-message-send"} onClick={() => {
+									const message = (document.getElementById("sixly-ai-message-input") as HTMLInputElement).value
+									setMessageList([...messageList, {message: message, isAI: false}])
+
+									const messageURI = encodeURI(message)
+									fetch(
+										`${rootUrl}/api/sixly/ai/generate?message=${messageURI}`,
+									)
+										.then((response) => response.json())
+										.then((data) => {
+											setMessageList([...messageList, {message: message, isAI: false}, {message: data["generation"], isAI: true}])
+										});
+
+									(document.getElementById("sixly-ai-message-input") as HTMLInputElement).value = ""
+
+								}} />
+							</div>
+						</>}
 					</div>
 				</div>
 				<footer className={"sixly-footer"}>
@@ -246,14 +286,13 @@ function App() {
 					<div className={"sixly-footer-item"}>
 						<FontAwesomeIcon
 							className={"sixly-footer-icon"}
-							icon={faCoins}
+							icon={faCommentsDollar}
 							onClick={() => {
 								setSiteShown(3);
-								fetchContent(3);
 							}}
 						/>
 						<br />
-						Top Stocks
+						AI Copilot
 					</div>
 				</footer>
 				<div className={"sixly-overlay"}></div>
