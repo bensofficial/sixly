@@ -1,8 +1,9 @@
-# Getting Started with Create React App
+# TODOs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [ ] Tooltip for select
+- [ ] AI feature
+- [ ] News
 
-## Available Scripts
 
 In the project directory, you can run:
 
