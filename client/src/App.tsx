@@ -155,8 +155,14 @@ function App() {
 							contentSiteOne.map((content) => {
 								return <ContentTile content={content} />;
 							})}
-						{siteShown === 2 && <div>page two</div>}
-						{siteShown === 3 && <div>page tree</div>}
+						{siteShown === 2 &&
+							contentSiteTwo.map((content) => {
+								return <ContentTile content={content} />;
+							})}
+						{siteShown === 3 &&
+							contentSiteThree.map((content) => {
+								return <ContentTile content={content} />;
+							})}
 					</div>
 				</div>
 				<footer className={"sixly-footer"}>
