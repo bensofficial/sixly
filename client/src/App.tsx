@@ -2,11 +2,22 @@ import React, {useState} from 'react';
 import './App.css';
 import {faCoins, faFireFlameCurved, faPercent} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ContentTile from "./ContentTile";
 
 interface Story {
     company: string,
     news: string,
     logoUrl: string,
+}
+
+export interface Content {
+    company: string,
+    logoUrl: string,
+    sector: string,
+    prices: Array<{
+        date: Date,
+        price: number
+    }>
 }
 
 function App() {
@@ -17,16 +28,6 @@ function App() {
     // 3: Greatest capital
     const [siteShown, setSiteShown] = useState(1)
     let timeout: NodeJS.Timeout | undefined
-
-    function showStory(storyPosition: number) {
-        setStoryShown(storyPosition)
-        timeout = setTimeout(() => hideStoryShown(), 10*1000)
-    }
-
-    function hideStoryShown() {
-        clearTimeout(timeout)
-        setStoryShown(-1)
-    }
 
     const stories: Array<Story> = [{
         company: "Google",
@@ -46,6 +47,59 @@ function App() {
         logoUrl: "https://i.pinimg.com/736x/0a/06/60/0a06600cc3cedeb49280b54114c88ce6.jpg",
     },
     ]
+
+    const contentSiteOne: Array<Content> = [
+        {
+            company: "Microsoft",
+            logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+            sector: "IT",
+            prices: [
+                {
+                    date: new Date(2023, 0, 1, 1, 0, 0),
+                    price: 20
+                },
+                {
+                    date: new Date(2023, 5, 1, 1, 0, 0),
+                    price: 20
+                },
+                {
+                    date: new Date(2024, 0, 1, 1, 0, 0),
+                    price: 30
+                }
+            ]
+        },
+        {
+            company: "Amazon",
+            logoUrl: "https://i.pinimg.com/736x/0a/06/60/0a06600cc3cedeb49280b54114c88ce6.jpg",
+            sector: "Shopping",
+            prices: [
+                {
+                    date: new Date(2023, 0, 1, 1, 0, 0),
+                    price: 1
+                },
+                {
+                    date: new Date(2023, 5, 1, 1, 0, 0),
+                    price: 20
+                },
+                {
+                    date: new Date(2024, 0, 1, 1, 0, 0),
+                    price: 6
+                }
+            ]
+        }
+    ]
+    const contentSiteTwo: Array<Content> = []
+    const contentSiteThree: Array<Content> = []
+
+    function showStory(storyPosition: number) {
+        setStoryShown(storyPosition)
+        timeout = setTimeout(() => hideStoryShown(), 10*1000)
+    }
+
+    function hideStoryShown() {
+        clearTimeout(timeout)
+        setStoryShown(-1)
+    }
 
     if (storyShown >= 0) {
         return (
@@ -74,87 +128,13 @@ function App() {
                     </div>
 
                     <div className={"sixly-content"}>
-                        {siteShown === 1 && <div>page one</div>}
+                        {siteShown === 1 && contentSiteOne.map((content) => {
+                                return (
+                                    <ContentTile content={content} />
+                                );
+                            })}
                         {siteShown === 2 && <div>page two</div>}
                         {siteShown === 3 && <div>page tree</div>}
-
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
-                        stories<br/>
                     </div>
                 </div>
                 <footer className={"sixly-footer"}>

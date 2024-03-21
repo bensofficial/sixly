@@ -53,7 +53,10 @@ h1 {
 
 .sixly-story-image {
     height: 50px;
+    width: 50px;
     border-radius: 50%;
+    border: solid darkviolet;
+    object-fit: cover;
 }
 
 .sixly-content {
