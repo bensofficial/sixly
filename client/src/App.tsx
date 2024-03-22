@@ -17,6 +17,7 @@ interface Story {
 	fond: string;
 	news: string;
 	logoUrl: string;
+	reference: string;
 }
 
 export interface Content {
@@ -35,7 +36,7 @@ export interface AIChatMessage {
 	isAI: boolean;
 }
 
-const rootUrl = "https://sixly.de";
+const rootUrl = "https://localhost";
 
 function App() {
 	// one number for each of the four stories

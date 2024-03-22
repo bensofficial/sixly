@@ -5,16 +5,10 @@ import is.schmitz.benjamin.sixly.controller.dto.FilterOptions;
 import is.schmitz.benjamin.sixly.controller.dto.NewsDTO;
 import is.schmitz.benjamin.sixly.controller.dto.PriceEntry;
 import org.springframework.ai.azure.openai.AzureOpenAiChatClient;
-import org.springframework.ai.chat.ChatResponse;
-import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +24,10 @@ public class SixlyEndpoint {
     @CrossOrigin(origins = "http://localhost:3000")
     public List<NewsDTO> getNews() {
         var news = new LinkedList<NewsDTO>();
-        news.add(new NewsDTO("Fond 1", "http://localhost/fond1", "News Fond 1"));
-        news.add(new NewsDTO("Fond 2", "http://localhost/fond2", "News Fond 2"));
-        news.add(new NewsDTO("Fond 3", "http://localhost/fond3", "News Fond 3"));
-        news.add(new NewsDTO("Fond 4", "http://localhost/fond4", "News Fond 4"));
+        news.add(new NewsDTO("Goldman Sachs", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Goldman_Sachs.svg/800px-Goldman_Sachs.svg.png", "Goldman Sachs Asset Management raises $700MM for Union Bridge.\nUnion Bridge offers co-investment opportunities in public and private markets.\nFund sourced from diverse investors; targets unique investment opportunities.", "https://www.gsam.com/content/gsam/global/en/about-gsam/news-and-media/2024/union-bridge-partners-co-investment-strategy.html"));
+        news.add(new NewsDTO("Vontobel Fonds Services AG", "https://media.licdn.com/dms/image/D4D10AQE58sj5fTWFLg/videocover-low/0/1708678579134?e=2147483647&v=beta&t=r16_zQxXsLSyniUFrpEsErBF84iRRdlcdu_ZkClig3o", "Raiffeisen evaluates ending Vontobel partnership, causing potential CHF 30M loss.\n10-year collaboration provided significant revenue, but Raiffeisen reconsiders future.\nVontobel faces substantial impact; Raiffeisen rethinks cooperation strategy.", "https://insideparadeplatz.ch/2024/02/20/raiffeisen-vor-kuendigung-des-vontobel-vertriebsdeals/"));
+        news.add(new NewsDTO("Amundi Asset Management", "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Amundi_logo.svg/1920px-Amundi_logo.svg.png", "Amundi launches low-cost global ETF with 0.07% management fee.\nIntensifying price competition among ETF providers in European market.\nTrend towards lower fees driven by investor demand and competition.", "https://www.dasinvestment.com/amundi-prime-all-country-world-ucits-etf-preisguenstig/"));
+        news.add(new NewsDTO("Rothschild & Co Asset Management", "https://cdn.zonebourse.com/static/instruments-logo-5306", "Rothschild & Co Bank seeks to expand with new advisors.\nGrowth strategy includes focus on Swiss retirement solutions.\nPrioritizing long-term client relationships and selective hiring practices.", "https://www.finews.ch/news/banken/61577-rothschild-co-bank-laurent-gagnebin-abschluss-2023-gewinn-neugeld-assets-under-management"));
 
         return news;
     }
