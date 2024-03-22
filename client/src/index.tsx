@@ -10,15 +10,15 @@ const root = ReactDOM.createRoot(
 
 const width = document.documentElement.clientWidth;
 console.log(width);
-if (width < 450) {
+if (width < 426) {
 	// c.f. https://stackoverflow.com/a/15010718 and https://stackoverflow.com/a/25683272
 	document.querySelector("meta[name=viewport]")?.setAttribute(
 		"content",
 		// eslint-disable-next-line max-len
 		"width=device-width, initial-scale=" +
-			(width / 450 - 0.05) +
+			(width / 426 - 0.05) +
 			", maximum-scale=" +
-			(width / 450 - 0.05) +
+			(width / 426 - 0.05) +
 			", user-scalable=0",
 	);
 	console.error("here");
