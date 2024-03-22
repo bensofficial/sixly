@@ -28,7 +28,7 @@ function ContentTile({ content }: ContentTileProps) {
 					{content.score}
 				</span>
 			</div>
-			<div className={"sixly-contenttile-sector"}>{content.sector}</div>
+			{/*<div className={"sixly-contenttile-sector"}>{content.sector}</div>*/}
 			<LineChart
 				className={"sixly-contenttile-chart"}
 				width={400}

@@ -7,6 +7,9 @@ import is.schmitz.benjamin.sixly.controller.dto.PriceEntry;
 import org.springframework.ai.azure.openai.AzureOpenAiChatClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.LinkedList;
@@ -48,23 +51,222 @@ public class SixlyEndpoint {
 
         var contents = new LinkedList<ContentDTO>();
 
-        var prices1 = new LinkedList<PriceEntry>();
-        prices1.add(new PriceEntry(LocalDateTime.of(2015,
-                Month.JULY, 29, 19, 30, 40), 2.5));
-        prices1.add(new PriceEntry(LocalDateTime.of(2015,
-                Month.AUGUST, 29, 19, 30, 40), 5d));
-        prices1.add(new PriceEntry(LocalDateTime.of(2015,
-                Month.SEPTEMBER, 29, 19, 30, 40), 8.5));
-        contents.add(new ContentDTO("Fond 1 for site " + siteID + filterOptions, "http://localhost/fond1", "Sector", "2.5", prices1));
+        DecimalFormat df = new DecimalFormat("#,#");
+        df.setRoundingMode(RoundingMode.HALF_UP);
 
-        var prices2 = new LinkedList<PriceEntry>();
-        prices2.add(new PriceEntry(LocalDateTime.of(2015,
-                Month.JULY, 29, 19, 30, 40), 200d));
-        prices2.add(new PriceEntry(LocalDateTime.of(2015,
-                Month.AUGUST, 29, 19, 30, 40), 100d));
-        prices2.add(new PriceEntry(LocalDateTime.of(2015,
-                Month.SEPTEMBER, 29, 19, 30, 40), 150d));
-        contents.add(new ContentDTO("Fond 2 for site " + siteID + filterOptions, "http://localhost/fond2", "Sector", "7.5", prices2));
+        if (siteID == 1) {
+            var prices1 = new LinkedList<PriceEntry>();
+            prices1.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.JUNE, 1, 1, 0, 0), 90.51));
+            prices1.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.SEPTEMBER, 1, 1, 0, 0), 88.67));
+            prices1.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.NOVEMBER, 1, 1, 0, 0), 84.86));
+            prices1.add(new PriceEntry(LocalDateTime.of(2024,
+                    Month.FEBRUARY, 1, 1, 0, 0), 94.72));
+
+            int sustainability = 4;
+            int risk = 2;
+            int returns = 9;
+            var avarageList = new LinkedList<Integer>();
+
+            if (keywords != null && keywords.contains("sustainability")) {
+                avarageList.add(sustainability);
+            }
+            if (keywords != null && keywords.contains("risk")) {
+                avarageList.add(risk);
+            }
+            if (keywords != null && keywords.contains("return")) {
+                avarageList.add(returns);
+            }
+            if (avarageList.isEmpty()) {
+                avarageList.add(risk);
+                avarageList.add(returns);
+            }
+
+            double avarage = avarageList.stream().mapToInt((i) -> i).average().orElse(0);
+
+            avarageList = new LinkedList<>();
+
+            contents.add(new ContentDTO("LCL Investissement Dynamique ISR FCP", "https://www.francetransactions.com/local/adapt-img/1300/10x/IMG/arton49502.jpg?1673968729", "", df.format(avarage), prices1));
+
+            //////////////////////////////////////////////////////////////////////////////////////
+
+            var prices2 = new LinkedList<PriceEntry>();
+            prices2.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.JUNE, 1, 1, 0, 0), 1200d));
+            prices2.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.SEPTEMBER, 1, 1, 0, 0), 1380d));
+            prices2.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.NOVEMBER, 1, 1, 0, 0), 1420d));
+            prices2.add(new PriceEntry(LocalDateTime.of(2024,
+                    Month.FEBRUARY, 1, 1, 0, 0), 1530d));
+
+             sustainability = 9;
+             risk = 6;
+             returns = 6;
+             avarageList = new LinkedList<Integer>();
+
+            if (keywords != null && keywords.contains("sustainability")) {
+                avarageList.add(sustainability);
+            }
+            if (keywords != null && keywords.contains("risk")) {
+                avarageList.add(risk);
+            }
+            if (keywords != null && keywords.contains("return")) {
+                avarageList.add(returns);
+            }
+            if (avarageList.isEmpty()) {
+                avarageList.add(risk);
+                avarageList.add(returns);
+            }
+
+             avarage = avarageList.stream().mapToInt((i) -> i).average().orElse(0);
+            avarageList = new LinkedList<>();
+
+            contents.add(new ContentDTO("EDM International SICAV - Strategy Fond", "https://d1hbpr09pwz0sk.cloudfront.net/logo_url/edm-wealth-asset-management-2874231a", "", df.format(avarage), prices2));
+
+            ///////////////////////////////////////////////////////////////////////
+
+            var prices3 = new LinkedList<PriceEntry>();
+            prices3.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.JUNE, 1, 1, 0, 0), 275d));
+            prices3.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.SEPTEMBER, 1, 1, 0, 0), 293d));
+            prices3.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.NOVEMBER, 1, 1, 0, 0), 299d));
+            prices3.add(new PriceEntry(LocalDateTime.of(2024,
+                    Month.FEBRUARY, 1, 1, 0, 0), 308d));
+
+            sustainability = 2;
+            risk = 4;
+            returns = 6;
+            avarageList = new LinkedList<Integer>();
+
+            if (keywords != null && keywords.contains("sustainability")) {
+                avarageList.add(sustainability);
+            }
+            if (keywords != null && keywords.contains("risk")) {
+                avarageList.add(risk);
+            }
+            if (keywords != null && keywords.contains("return")) {
+                avarageList.add(returns);
+            }
+            if (avarageList.isEmpty()) {
+                avarageList.add(risk);
+                avarageList.add(returns);
+            }
+
+            avarage = avarageList.stream().mapToInt((i) -> i).average().orElse(0);
+
+            contents.add(new ContentDTO("Muzinich Funds - Muzinich Americayield Fund", "https://www.moneycontroller.co.uk/upload/fondi/muzinich-co-ltd.png", "", df.format(avarage), prices3));
+        } else {
+            var prices1 = new LinkedList<PriceEntry>();
+            prices1.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.JUNE, 1, 1, 0, 0), 98.48));
+            prices1.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.SEPTEMBER, 1, 1, 0, 0), 97.37));
+            prices1.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.NOVEMBER, 1, 1, 0, 0), 94.65));
+            prices1.add(new PriceEntry(LocalDateTime.of(2024,
+                    Month.FEBRUARY, 1, 1, 0, 0), 99.18));
+
+            int sustainability = 6;
+            int risk = 6;
+            int returns = 3;
+            var avarageList = new LinkedList<Integer>();
+
+            if (keywords != null && keywords.contains("sustainability")) {
+                avarageList.add(sustainability);
+            }
+            if (keywords != null && keywords.contains("risk")) {
+                avarageList.add(risk);
+            }
+            if (keywords != null && keywords.contains("return")) {
+                avarageList.add(returns);
+            }
+            if (avarageList.isEmpty()) {
+                avarageList.add(risk);
+                avarageList.add(returns);
+            }
+
+            double avarage = avarageList.stream().mapToInt((i) -> i).average().orElse(0);
+
+            avarageList = new LinkedList<>();
+
+            contents.add(new ContentDTO("Vontobel Fund - Pension Invest Yield", "https://media.licdn.com/dms/image/D4D10AQE58sj5fTWFLg/videocover-low/0/1708678579134?e=2147483647&v=beta&t=r16_zQxXsLSyniUFrpEsErBF84iRRdlcdu_ZkClig3o", "", df.format(avarage), prices1));
+
+            //////////////////////////////////////////////////////////////////////////////////////
+
+            var prices2 = new LinkedList<PriceEntry>();
+            prices2.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.JUNE, 1, 1, 0, 0), 13.22));
+            prices2.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.SEPTEMBER, 1, 1, 0, 0), 13.42));
+            prices2.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.NOVEMBER, 1, 1, 0, 0), 13.08));
+            prices2.add(new PriceEntry(LocalDateTime.of(2024,
+                    Month.FEBRUARY, 1, 1, 0, 0), 13.97));
+
+            sustainability = 10;
+            risk = 7;
+            returns = 2;
+            avarageList = new LinkedList<Integer>();
+
+            if (keywords != null && keywords.contains("sustainability")) {
+                avarageList.add(sustainability);
+            }
+            if (keywords != null && keywords.contains("risk")) {
+                avarageList.add(risk);
+            }
+            if (keywords != null && keywords.contains("return")) {
+                avarageList.add(returns);
+            }
+            if (avarageList.isEmpty()) {
+                avarageList.add(risk);
+                avarageList.add(returns);
+            }
+
+            avarage = avarageList.stream().mapToInt((i) -> i).average().orElse(0);
+            avarageList = new LinkedList<>();
+
+            contents.add(new ContentDTO("R-co OPAL Modere FCP", "https://cdn.zonebourse.com/static/instruments-logo-5306", "", df.format(avarage), prices2));
+
+            ///////////////////////////////////////////////////////////////////////
+
+            var prices3 = new LinkedList<PriceEntry>();
+            prices3.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.JUNE, 1, 1, 0, 0), 18.13));
+            prices3.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.SEPTEMBER, 1, 1, 0, 0), 18.85));
+            prices3.add(new PriceEntry(LocalDateTime.of(2023,
+                    Month.NOVEMBER, 1, 1, 0, 0), 18.30));
+            prices3.add(new PriceEntry(LocalDateTime.of(2024,
+                    Month.FEBRUARY, 1, 1, 0, 0), 21.01));
+
+            sustainability = 5;
+            risk = 4;
+            returns = 8;
+            avarageList = new LinkedList<Integer>();
+
+            if (keywords != null && keywords.contains("sustainability")) {
+                avarageList.add(sustainability);
+            }
+            if (keywords != null && keywords.contains("risk")) {
+                avarageList.add(risk);
+            }
+            if (keywords != null && keywords.contains("return")) {
+                avarageList.add(returns);
+            }
+            if (avarageList.isEmpty()) {
+                avarageList.add(risk);
+                avarageList.add(returns);
+            }
+
+            avarage = avarageList.stream().mapToInt((i) -> i).average().orElse(0);
+
+            contents.add(new ContentDTO("SG Actions US Techno FCP", "https://quantalys.com/Areas/Shared/Static/img/icones_composition/%C3%89nergie-01.png", "", df.format(avarage), prices3));
+        }
 
         return contents;
     }

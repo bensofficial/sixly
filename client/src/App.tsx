@@ -190,9 +190,9 @@ function App() {
 									data-tooltip-id={"select-tooltip"}
 									data-tooltip-content={
 										"Select categories that are important to you when investing.\n" +
-										"Sustainability: \n" +
-										"Risk: \n" +
-										"Return: "
+										"Sustainability: Environmental, social, and governance factors\n" +
+										"Risk: Security of your investments by stability of fond performance (with number of times exceeding change of 10 % in one day)\n" +
+										"Return: Potential win"
 									}
 								>
 									<FontAwesomeIcon icon={faQuestion} />
